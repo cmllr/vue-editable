@@ -2,6 +2,10 @@
 
 [![](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org)
 
+![](https://raw.githubusercontent.com/cmllr/vue-editable/master/example/example.gif)
+ 
+
+
 In-place editing for Vue.js 2.
 
 > This plugin is still under active development. Do not use in production projects.

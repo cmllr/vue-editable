@@ -1,7 +1,7 @@
 app = new Vue({
     el: '.vue',
     data: {
-        message: ' test',
+        message: 'You can change this value',
         frank: 1000,
         susanne: 1000,
         number: 244,

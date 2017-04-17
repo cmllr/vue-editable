@@ -1,3 +1,10 @@
+Vue.use(editable,{
+    css: {
+        input: "form-control vue-editable-input-width",
+        hidden: "vue-editable-hidden",
+        editable: "vue-editable-can-edit" 
+    }
+});
 app = new Vue({
     el: '.vue',
     data: {

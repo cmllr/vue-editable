@@ -1,9 +1,16 @@
 const editable = {
+    css:{
+        input: "vue-editable-input",
+        hidden: "vue-editable-hidden",
+        editable: "vue-editable-can-edit" 
+    },
     openInput: null,
     parent: null,
     install: function(vue,options){
+        if (typeof options !== 'undefined' && options !== null && typeof options.css !== 'undefined' && options.css !== null){
+            this.css = options.css;
+        }
         var _t = this;
-        console.log("vue-editable loaded");
         Vue.directive('editable', {
             inserted: function (el, binding, vnode, oldVnod) {
                 var property = binding.expression;   
@@ -21,7 +28,7 @@ const editable = {
                 el.onclick= function(){
                    _t.getInput(el,property,attributes);
                 }
-                el.setAttribute("class",el.getAttribute("class") !== null ?  + el.getAttribute("class") + "vue-editable-can-edit" : "vue-editable-can-edit");
+                el.setAttribute("class",el.getAttribute("class") !== null ?  + el.getAttribute("class") + editable.css.editable : editable.css.editable);
             }
         });
     },
@@ -30,7 +37,7 @@ const editable = {
             editable.openInput = el;
 
             var c = el.getAttribute("class") !== null ? el.getAttribute("class") : "";
-            c += " vue-editable-hidden";
+            c += " " + editable.css.hidden;
 
             el.setAttribute("class",c);
 
@@ -38,7 +45,7 @@ const editable = {
             for(var attr in attributes){                
                 input.setAttribute(attr,attributes[attr]);
             }
-            input.setAttribute("class","vue-editable-input");
+            input.setAttribute("class",editable.css.input);
             input.setAttribute("id","jfksafjlasjl");
             input.setAttribute("v-editable-target",property);
             if (el.getAttribute("data-index") !== null){
@@ -124,16 +131,14 @@ const editable = {
                     editable.parent[target] = editable.convertType(editable.parent[target],value);
                 }               
             }
-            editable.openInput.setAttribute("class",editable.openInput.getAttribute("class").replace("vue-editable-hidden","").trim());
+            editable.openInput.setAttribute("class",editable.openInput.getAttribute("class").replace(editable.css.hidden,"").trim());
             editable.openInput = null;
         }
         if (event.which === 27){
-            editable.openInput.removeChild(child);          
+            editable.openInput.removeChild(child);  
+            editable.openInput.setAttribute("class",editable.openInput.getAttribute("class").replace(editable.css.hidden,"").trim());
+            editable.openInput = null;        
         }
     }
 };
 
-
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(editable)
-}

@@ -1,0 +1,12 @@
+.vue-editable-hidden{    
+    display: table-caption;
+}
+.vue-editable-input{
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    color:black;
+}
+.vue-editable-can-edit{
+    cursor: text;
+    color:#337ab7;
+}

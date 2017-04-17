@@ -99,7 +99,7 @@ const editable = {
                 for(var i =0;i< parts.length;i++){
                     var part = parts[i];
                     if (typeof lastObj[part] !== 'object'){                      
-                        lastObj[part] = value;
+                        lastObj[part] = editable.convertType(lastObj[part],value);
                         break;
                     }                         
                     lastObj =  lastObj[part];    

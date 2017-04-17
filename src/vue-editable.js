@@ -57,6 +57,11 @@ const editable = {
             input.focus();
         }        
     },
+    convertType: function(oldValue,newValue){
+        var isObject = typeof oldValue === 'object';
+        var isInt = !isObject && oldValue % 1 === 0;
+        return isInt ? parseInt(newValue) : newValue;
+    },
     getPropertyValue: function(path,index){
         var response = null;
         if (path.indexOf(".") !== -1){
@@ -107,15 +112,16 @@ const editable = {
                         var obj = editable.parent[target][index];
                         var prop = child.getAttribute("data-property");
                         //update the affected property only
-                        obj[prop] = value;
+                        obj[prop] = editable.convertType(obj[prop],value);
                         //reinsert the value
                         Vue.set(editable.parent[target],index,obj);
                     }else{
                         //the value is value of an array, but there are no complex members -> update complete value
-                        Vue.set(editable.parent[target],index,value);
+                        var old = editable.parent[target][index];
+                        Vue.set(editable.parent[target],index,editable.convertType(old,value));
                     }
                 }else{
-                    editable.parent[target] = value;
+                    editable.parent[target] = editable.convertType(editable.parent[target],value);
                 }               
             }
             editable.openInput.setAttribute("class",editable.openInput.getAttribute("class").replace("vue-editable-hidden","").trim());

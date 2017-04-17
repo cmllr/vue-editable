@@ -42,6 +42,17 @@
                             <td v-editable="staff" data-property="income" :data-index="key">{{ value.income }}</td>
                         </tr>
                     </table>
+                    <p>
+                        If you are just iterating plain arrays, just remove <code>data-property</code>. 
+                    </p>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Value</th>
+                        </tr>
+                        <tr v-for="(value,key) in table">
+                            <td v-editable="table" :data-index="key">{{ value }}</td>
+                        </tr>
+                    </table>
                     <h2>Nested example</h2>
 <pre>
 {

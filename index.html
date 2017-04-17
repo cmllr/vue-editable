@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        
+           <style>
+                .vue-editable-hidden{    
+                    display: table-caption;
+                }
+                .vue-editable-input{
+                    margin-top: 0.3em;
+                    margin-bottom: 0.3em;
+                    color:black;
+                }
+                .vue-editable-can-edit{
+                    cursor: text;
+                    color:#337ab7;
+                }
+            </style>
+    </head>
+    <body>
+            <div class="container">
+                <div class="vue">
+                    <h1>vue-editable</h1>
+                    vue-editable is a component to manipulate data values in the view without the need to develop an edit dialog.
+                    <h2>Basic example</h2>
+                    <p>
+                        Use <code>v-editable='property'</code> to enable editing. <code>property</code> is the property name in <code>$.data</code>, it can be an nested path (see Nested example)
+                    </p>
+                    <label v-editable="message">{{ message }}</label>
+                    <h2>Example with additional attributes</h2>
+                    <p>
+                        Use <code>data-type='number'</code> to set the input type. Attributes with <code>data-</code> prefix will be forwarded to the input, e.g. 
+                        <ul>
+                            <li><code>min</code> -> <code>data-min</code></li>
+                            <li><code>max</code> -> <code>data-max</code></li>
+                            <li><code>name</code> -> <code>data-name</code></li>
+                        </ul>
+                    </p>
+                    <label v-editable="number" data-type="number">{{ number }}</label>
+                    <h2>Table</h2>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Name</th>
+                            <th>Income</th>
+                        </tr>
+                        <tr>
+                            <td>Frank</td>
+                            <td v-editable="frank">{{ frank }}</td>
+                        </tr>
+                        <tr>
+                            <td>Susanne</td>
+                            <td v-editable="susanne">{{ susanne }}</td>
+                        </tr>
+                    </table>
+                    <h2>Nested example</h2>
+<pre>
+{
+    nested:{
+        obj:{
+            message: 'nested Information'
+        }
+    }
+}
+</pre>
+                    <p>
+                        Use <code>v-editable="nested.obj.message"</code> to map the nested structure.
+                    </p>
+                    <label v-editable="nested.obj.message">{{ nested.obj.message }}</label>
+                </div>
+            </div>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js"></script>
+    <script src="vue-editable.js"></script>
+    <script src="app.js"></script>
+</html>

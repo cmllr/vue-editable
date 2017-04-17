@@ -41,29 +41,49 @@ const editable = {
             input.setAttribute("class","vue-editable-input");
             input.setAttribute("id","jfksafjlasjl");
             input.setAttribute("v-editable-target",property);
-            input.value = this.getPropertyValue(property);
+            if (el.getAttribute("data-index") !== null){
+                input.setAttribute("data-index",el.getAttribute("data-index"));
+            }  
+            var value = this.getPropertyValue(property,el.getAttribute("data-index"));            
+            if (el.getAttribute("data-property") !== null){
+                input.setAttribute("data-property",el.getAttribute("data-property"));
+                input.value = value[el.getAttribute("data-property")];
+            }else{
+                input.value = value;
+            }
+          
             input.onkeydown = this.rebind;
             el.appendChild(input);
             input.focus();
         }        
     },
-    getPropertyValue: function(path){
+    getPropertyValue: function(path,index){
+        var response = null;
         if (path.indexOf(".") !== -1){
             var lastObj = this.parent;
             var parts = path.split(".");
             for(var i =0;i< parts.length;i++){
                 var part = parts[i];
                 if (typeof lastObj[part] !== 'object'){
-                   return lastObj[part];
+                   response =  lastObj[part];
+                   break;
                 }                         
                 lastObj =  lastObj[part];    
             }
         }else{
-            return this.parent[path];
+            response = this.parent[path];
         }
+        if (index !== null){
+            return response[index];
+        }
+        return response;
+    },
+    getIndex: function(element){
+        return element.getAttribute("data-index") === null ? -1 : parseInt(element.getAttribute("data-index"));
     },
     rebind: function(event){  
-        var child = document.getElementById("jfksafjlasjl");
+        var child = document.getElementById("jfksafjlasjl"); 
+        var index = editable.getIndex(event.srcElement);
         if (event.which === 13){          
             var value = child.value;
             var target = child.getAttribute("v-editable-target");
@@ -73,23 +93,36 @@ const editable = {
                 var parts = target.split(".");
                 for(var i =0;i< parts.length;i++){
                     var part = parts[i];
-                    if (typeof lastObj[part] !== 'object'){
-                        console.log(part);
+                    if (typeof lastObj[part] !== 'object'){                      
                         lastObj[part] = value;
                         break;
                     }                         
                     lastObj =  lastObj[part];    
                 }
             }else{
-                editable.parent[target] = value;
+                if (index !== -1){
+                    //An index was forwarded -> the target is an array, maybe iterated via v-for
+                    if (child.getAttribute("data-property") !== null){
+                        //it is not only an array -> complex objects where iterated
+                        var obj = editable.parent[target][index];
+                        var prop = child.getAttribute("data-property");
+                        //update the affected property only
+                        obj[prop] = value;
+                        //reinsert the value
+                        Vue.set(editable.parent[target],index,obj);
+                    }else{
+                        //the value is value of an array, but there are no complex members -> update complete value
+                        Vue.set(editable.parent[target],index,value);
+                    }
+                }else{
+                    editable.parent[target] = value;
+                }               
             }
             editable.openInput.setAttribute("class",editable.openInput.getAttribute("class").replace("vue-editable-hidden","").trim());
             editable.openInput = null;
         }
         if (event.which === 27){
-            editable.openInput.removeChild(child);
-            editable.openInput.setAttribute("class",editable.openInput.getAttribute("class").replace("vue-editable-hidden","").trim());
-            editable.openInput = null;
+            editable.openInput.removeChild(child);          
         }
     }
 };

@@ -28,21 +28,18 @@
                     </p>
                     <label v-editable="number" data-type="number">{{ number }}</label>
                     <h2>Table</h2>
+                    <p>
+                        If you are using <code>v-for</code>, it is a little bit more complicated. You need to tell vue-editable the property you want to update and the index of the element itself.
+                        You can do this with the attributes <code>data-property</code> and <code>data-index</code>.
+                    </p>
                     <table class="table table-striped">
                         <tr>
                             <th>Name</th>
                             <th>Income</th>
-                            <th>Car</th>
                         </tr>
-                        <tr>
-                            <td>Frank</td>
-                            <td v-editable="frank">{{ frank }}</td>
-                            <td>yes</td>
-                        </tr>
-                        <tr>
-                            <td>Susanne</td>
-                            <td v-editable="susanne">{{ susanne }}</td>
-                            <td>no</td>
+                        <tr v-for="(value,key) in staff">
+                            <td v-editable="staff" data-property="name" :data-index="key">{{ value.name }}</td>
+                            <td v-editable="staff" data-property="income" :data-index="key">{{ value.income }}</td>
                         </tr>
                     </table>
                     <h2>Nested example</h2>

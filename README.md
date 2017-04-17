@@ -31,6 +31,31 @@ Add the directive `v-editable` with the name of the property you want to bind to
 
 If your property is nested, you can use `"foo.bar.barz"` as the value.
 
+### v-for
+
+You can use vue-editable in a `v-for` use case, too. In this case, you need more attributes to tell the plugin what to do.
+
+```
+<table>
+    <tr>
+        <th>Name</th>
+    </tr>
+    <tr v-for="(value,key) in staff">
+        <td v-editable="staff" data-property="name" :data-index="key">
+            {{ value.name }}
+        </td>
+    </tr>
+</table>
+```
+
+In this example, you tell vue-editable to allow in place editing for `staff[index].name`. Please note that `data-index` is bound via `:` or `v-bind` to get the index at runtime.
+
+## Problems
+
+- `v-for` expression do not work overall
+- not pretty at all
+- ES6 compalibity unknown
+
 ## License
 
 MIT

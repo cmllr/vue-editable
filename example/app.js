@@ -9,7 +9,20 @@ app = new Vue({
             obj:{
                 message: 'nested Information'
             }
-        }
+        },
+        table: [
+            500,
+            600
+        ],
+        staff: [
+            {
+                "name":"Frank",
+                "income":1000
+            },{
+                "name":"Susanne",
+                "income":1000
+            }
+        ]
     }
 });
 editable.parent = app;

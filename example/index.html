@@ -50,7 +50,7 @@
                             <th>Value</th>
                         </tr>
                         <tr v-for="(value,key) in table">
-                            <td v-editable="table" :data-index="key">{{ value }}</td>
+                            <td v-editable="table" :data-index="key" data-type="number" data-max="605">{{ value }}</td>
                         </tr>
                     </table>
                     <h2>Nested example</h2>

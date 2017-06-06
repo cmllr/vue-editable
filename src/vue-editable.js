@@ -20,7 +20,6 @@ editable = {
                 editable.parent = this;
             }
         });
-        var _t = this;
         Vue.directive('editable', {
             inserted: function (el, binding, vnode, oldVnod) {
                 var property = binding.expression;   
@@ -36,7 +35,7 @@ editable = {
                     }
                 }
                 el.onclick= function(){
-                   _t.getInput(el,property,attributes);
+                   editable.getInput(el,property,attributes);
                 }
                 el.setAttribute("class",el.getAttribute("class") !== null ?  + el.getAttribute("class") + editable.css.editable : editable.css.editable);                
             }

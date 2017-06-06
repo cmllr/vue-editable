@@ -6,12 +6,13 @@ before_install:
 - npm install gulp-uglify gulp-util gulp-concat gulp-minify-css gulp-header
 script:
 - gulp build
+- zip -rj build_travis.zip dist/**
 deploy:
   skip_cleanup: true
   provider: releases
   api_key:
     secure: yB2Xax+N/reGRjuiiQCnucDPqB6+iT1pnK3YH+976xpclmF7Hd0PXop8GvxyV3sX7ijs/ZDSTi3C8OxLGbW5b1wKbxfmP/UNeuJX2lVtYJwh2yQgByLnsKaP+QhC5GgFUW8eqU1+F1SjGUJsa9BspcQru70WaErW8c6EOLO+zET3O45O+XSyiSwbRMKAVr2YjN6EHEK5QxhHMCmzceDjO26RQn6bL3kD9RomjoIITFri7vtByh8iqwPk4XXFs8Qe7NArA3dra58NistImBJGQuuOLx+e1WbZs8KdMOyvKokyoCoJxobCKj7Oun7+Et9Yx6i7fFpw4pl1GKXN6OzCmFHEVRpnsn9cH4CUxjYFEceTlL6S5JDs8IAla5KU0pLdNIl0itjsJu8OgXCxdmCaaXoNnFhx31rbtAl6rybYfNaRDTf8i9cwKM3tVIOcZGu+/XHslWwHWp7sOiQ4n2tulBTcFx0WiHp4U8urEXktqM7Oijgfwlu/VAex1c+YTegSSUOFEFYkMjuvl20PHPm+N8coIsq2Ki/Pmvyoxeyr5kSkNsni2wyv312hkDqWXKPImL6Y+QPxGvMmFFfgUWYjRW2vRTDa1RCiFTt6lcfur3pjNerkaBEMxW1XKpa4kvtWNdJRLKbxU4ABzQ69AvV3bQwRE8M2/gY+L6CX+0uWY4k=
   file_glob: true
-  file: dist/*
+  file: build_travis.zip
   on: 
     tags: true

@@ -24,16 +24,16 @@ app = new Vue({
         staff: [
             {
                 "name":"Frank",
-                "income":1000
+                "income":1000,
+                "car":true
             },{
                 "name":"Susanne",
-                "income":1000
+                "income":1000,
+                "car":false
             }
         ]
     }
 });
-editable.parent = app;
-
 app.$on("editable-changed",function(e){
     console.log(e);
 });

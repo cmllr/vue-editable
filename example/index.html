@@ -36,10 +36,12 @@
                         <tr>
                             <th>Name</th>
                             <th>Income</th>
+                            <th>Car present?</th>
                         </tr>
                         <tr v-for="(value,key) in staff">
                             <td v-editable="staff" data-property="name" :data-index="key">{{ value.name }}</td>
                             <td v-editable="staff" data-property="income" :data-index="key">{{ value.income }}</td>
+                            <td v-editable="staff" data-property="car" :data-index="key">{{ value.car }}</td>
                         </tr>
                     </table>
                     <p>

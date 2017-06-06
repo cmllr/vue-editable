@@ -4,8 +4,6 @@
 
 ![](https://raw.githubusercontent.com/cmllr/vue-editable/master/example/example.gif)
  
-
-
 In-place editing for Vue.js 2.
 
 > This plugin is still under active development. Do not use in production projects.
@@ -14,11 +12,10 @@ In-place editing for Vue.js 2.
 
 ### app.js
 
-The vue-editable plugin needs to "know" the "parent" vue instance
+Tell Vue.js to use the plugin
 
 ```
-    app = new Vue(...);
-    editable.parent = app;
+Vue.use(editable);
 ```
 
 ### Template

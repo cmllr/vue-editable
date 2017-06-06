@@ -14,6 +14,12 @@ editable = {
         if (typeof options !== 'undefined' && options !== null && typeof options.css !== 'undefined' && options.css !== null){
             this.css = options.css;
         }
+        Vue.mixin({
+            created: function () {
+                // reference the calling vue-instance
+                editable.parent = this;
+            }
+        });
         var _t = this;
         Vue.directive('editable', {
             inserted: function (el, binding, vnode, oldVnod) {
@@ -76,6 +82,10 @@ editable = {
         }
         var isInt =  Number(oldValue) === oldValue && oldValue % 1 === 0;
         var isFloat =  Number(oldValue) === oldValue && oldValue % 1 !== 0;
+        var isBool = oldValue === true || oldValue === false;
+        if (isBool){
+            return newValue === "true" || newValue === true;
+        }
         return isInt ? parseInt(newValue) : (isFloat ? parseFloat(newValue) :newValue);
     },
     getPropertyValue: function(path,index){

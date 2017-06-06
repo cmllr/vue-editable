@@ -1,6 +1,8 @@
 # vue-editable
 
 [![](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org)
+[![Build Status](https://travis-ci.org/cmllr/vue-editable.svg?branch=master)](https://travis-ci.org/cmllr/vue-editable)
+
 
 ![](https://raw.githubusercontent.com/cmllr/vue-editable/master/example/example.gif)
  

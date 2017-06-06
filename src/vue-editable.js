@@ -1,6 +1,9 @@
 editable = {
+    created: function(){
+        console.log(this);
+    },
     css:{
-        input: "vue-editable-input",
+        input: "form-control vue-editable-input",
         hidden: "vue-editable-hidden",
         editable: "vue-editable-can-edit" 
     },
@@ -29,7 +32,7 @@ editable = {
                 el.onclick= function(){
                    _t.getInput(el,property,attributes);
                 }
-                el.setAttribute("class",el.getAttribute("class") !== null ?  + el.getAttribute("class") + editable.css.editable : editable.css.editable);
+                el.setAttribute("class",el.getAttribute("class") !== null ?  + el.getAttribute("class") + editable.css.editable : editable.css.editable);                
             }
         });
     },
@@ -62,13 +65,18 @@ editable = {
           
             input.onkeydown = this.rebind;
             el.appendChild(input);
+            editable.emitOpenedEvent(el);
             input.focus();
         }        
     },
     convertType: function(oldValue,newValue){
         var isObject = typeof oldValue === 'object';
-        var isInt = !isObject && oldValue % 1 === 0;
-        return isInt ? parseInt(newValue) : newValue;
+        if (isObject){
+            return newValue;
+        }
+        var isInt =  Number(oldValue) === oldValue && oldValue % 1 === 0;
+        var isFloat =  Number(oldValue) === oldValue && oldValue % 1 !== 0;
+        return isInt ? parseInt(newValue) : (isFloat ? parseFloat(newValue) :newValue);
     },
     getPropertyValue: function(path,index){
         var response = null;
@@ -100,6 +108,9 @@ editable = {
         if (event.which === 13){          
             var value = child.value;
             var target = child.getAttribute("v-editable-target");
+            var oldValue = null;
+            var newValue = null;
+            var reason = null;
             editable.openInput.removeChild(child);
             if (target.indexOf(".") !== -1){
                 var lastObj = editable.parent;
@@ -107,11 +118,14 @@ editable = {
                 for(var i =0;i< parts.length;i++){
                     var part = parts[i];
                     if (typeof lastObj[part] !== 'object'){                      
+                        oldValue = editable.deref(lastObj);
                         lastObj[part] = editable.convertType(lastObj[part],value);
+                        newValue = editable.deref(lastObj);
                         break;
                     }                         
                     lastObj =  lastObj[part];    
                 }
+                reason = "deep-property";
             }else{
                 if (index !== -1){
                     //An index was forwarded -> the target is an array, maybe iterated via v-for
@@ -120,26 +134,57 @@ editable = {
                         var obj = editable.parent[target][index];
                         var prop = child.getAttribute("data-property");
                         //update the affected property only
+                        oldValue = editable.deref(obj)
                         obj[prop] = editable.convertType(obj[prop],value);
+                        newValue = editable.deref(obj);
+                        reason = "property-in-array";
                         //reinsert the value
                         Vue.set(editable.parent[target],index,obj);
                     }else{
                         //the value is value of an array, but there are no complex members -> update complete value
-                        var old = editable.parent[target][index];
-                        Vue.set(editable.parent[target],index,editable.convertType(old,value));
+                        var oldValue = editable.deref(editable.parent[target][index]);
+                        newValue = editable.convertType(oldValue,value);
+                        reason = "element-in-array";
+                        Vue.set(editable.parent[target],index,newValue);                        
                     }
                 }else{
-                    editable.parent[target] = editable.convertType(editable.parent[target],value);
+                    oldValue = editable.parent[target];
+                    newValue = editable.convertType(editable.parent[target],value);
+                    reason = "property";
+                    editable.parent[target] = newValue;
                 }               
             }
+            editable.emitChangedEvent(oldValue,newValue,reason);
             editable.openInput.setAttribute("class",editable.openInput.getAttribute("class").replace(editable.css.hidden,"").trim());
             editable.openInput = null;
         }
         if (event.which === 27){
             editable.openInput.removeChild(child);  
+            editable.emitAbortedEvent(child);
             editable.openInput.setAttribute("class",editable.openInput.getAttribute("class").replace(editable.css.hidden,"").trim());
-            editable.openInput = null;        
+            editable.openInput = null;      
+
         }
+    },
+    emitChangedEvent: function(oldValue,newValue,changeReason){
+        editable.parent.$emit('editable-changed',{
+            oldValue: editable.deref(oldValue),
+            newValue: editable.deref(newValue),
+            changeReason: changeReason
+        });
+    },
+    emitAbortedEvent: function(el){
+        editable.parent.$emit('editable-aborted',{
+            element: el
+        });
+    },
+    emitOpenedEvent: function(el){
+        editable.parent.$emit('editable-opened',{
+            element: el
+        });
+    },
+    deref: function(value){
+        return JSON.parse(JSON.stringify(value));
     }
 };
 

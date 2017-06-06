@@ -33,3 +33,15 @@ app = new Vue({
     }
 });
 editable.parent = app;
+
+app.$on("editable-changed",function(e){
+    console.log(e);
+});
+
+app.$on("editable-opened",function(e){
+    console.log(e);
+});
+
+app.$on("editable-aborted",function(e){
+    console.log(e);
+});

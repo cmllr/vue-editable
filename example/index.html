@@ -55,13 +55,9 @@
                     </table>
                     <h2>Nested example</h2>
 <pre>
-{
-    nested:{
-        obj:{
-            message: 'nested Information'
-        }
-    }
-}
+{{
+  JSON.stringify(nested)  
+}}
 </pre>
                     <p>
                         Use <code>v-editable="nested.obj.message"</code> to map the nested structure.
@@ -71,6 +67,6 @@
             </div>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js"></script>
-    <script src="../dist/vue-editable.min.js"></script>
+    <script src="../src/vue-editable.js"></script>
     <script src="app.js"></script>
 </html>

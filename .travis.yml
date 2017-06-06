@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "7"
+before_install:
+  - "npm install -g gulp gulp-uglify gulp-util gulp-concat gulp-minify-css gulp-header"
+script:
+  - gulp build

@@ -3,6 +3,6 @@ node_js:
   - "7"
 before_install:
   - "npm install gulp"
-  - "npm install -g gulp-uglify gulp-util gulp-concat gulp-minify-css gulp-header"
+  - "npm install gulp-uglify gulp-util gulp-concat gulp-minify-css gulp-header"
 script:
   - gulp build

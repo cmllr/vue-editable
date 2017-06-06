@@ -6,3 +6,13 @@ before_install:
   - "npm install gulp-uglify gulp-util gulp-concat gulp-minify-css gulp-header"
 script:
   - gulp build
+
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: 
+    - "dist/vue-editable.min.js"
+    - "dist/vue-editable.min.css"
+  skip_cleanup: true
+  on:
+    tags: true

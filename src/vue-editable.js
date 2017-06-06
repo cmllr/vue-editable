@@ -1,9 +1,10 @@
-const editable = {
+editable = {
     css:{
         input: "vue-editable-input",
         hidden: "vue-editable-hidden",
         editable: "vue-editable-can-edit" 
     },
+    id: "_vue_editable_",
     openInput: null,
     parent: null,
     install: function(vue,options){
@@ -46,7 +47,7 @@ const editable = {
                 input.setAttribute(attr,attributes[attr]);
             }
             input.setAttribute("class",editable.css.input);
-            input.setAttribute("id","jfksafjlasjl");
+            input.setAttribute("id",this.id);
             input.setAttribute("v-editable-target",property);
             if (el.getAttribute("data-index") !== null){
                 input.setAttribute("data-index",el.getAttribute("data-index"));
@@ -94,7 +95,7 @@ const editable = {
         return element.getAttribute("data-index") === null ? -1 : parseInt(element.getAttribute("data-index"));
     },
     rebind: function(event){  
-        var child = document.getElementById("jfksafjlasjl"); 
+        var child = document.getElementById(this.id); 
         var index = editable.getIndex(event.srcElement);
         if (event.which === 13){          
             var value = child.value;
